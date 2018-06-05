@@ -4,8 +4,8 @@ import './App.css';
 
 const DEFAULT_STATE = {
   winStatus: 0,
-  board: Array.from({ length: 3 }, val => {
-    return Array.from({ length: 3 }, val => 0);
+  board: Array.from({ length: 6 }, val => {
+    return Array.from({ length: 7 }, val => 0);
   })
 };
 
@@ -26,7 +26,10 @@ class App extends Component {
     this.setState(prevState => {
       if (prevState.winStatus !== 0) return prevState;
       const newState = { ...prevState };
-      if (newState.board[targetRow][targetColumn] === 0) {
+      if (
+        newState.board[targetRow][targetColumn] === 0 &&
+        this.isBottomSquare(position)
+      ) {
         if (newState.isPlayer1Turn) {
           newState.board[targetRow][targetColumn] = 1;
         } else {
@@ -36,55 +39,76 @@ class App extends Component {
       }
       return newState;
     });
-    this.checkWin();
-    this.checkStalemate();
+    // this.checkWin();
+    // this.checkStalemate();
   };
 
-  checkStalemate = () => {
-    this.setState(prevState => {
-      const newState = { ...prevState };
-      const currentBoard = newState.board;
-      let stalemate = true;
-      currentBoard.forEach((row, rowIndex) => {
-        if (row.some(value => value === 0)) stalemate = false;
-      });
-      if (stalemate) newState.winStatus = 3;
-      return newState;
-    });
+  isBottomSquare = coordinate => {
+    //don't modify the board, just return boolean
+    const board = this.state.board;
+    const coordinateColumn = [];
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (coordinate[1] !== j) continue;
+        coordinateColumn.push(board[i][j]);
+        if (board[i][j] === coordinate) break;
+      }
+    }
+    console.log(coordinate);
+    console.log(coordinateColumn);
+    //I have all the columns in this row
+    //need to get all the columns values 'under' the target coordinate
+    //if any values under coordinate are 0, return false
+    //else, return true (use some/every)
+    debugger;
+    return true;
   };
 
-  checkWin = () => {
-    this.setState(prevState => {
-      if (prevState.winStatus !== 0) return prevState;
-      const newState = { ...prevState };
-      const currentBoard = newState.board;
-      let p1Wins,
-        p2Wins = false;
-      const columns = Array.from({ length: currentBoard.length }, val => []);
-      const di1 = [];
-      const di2 = [];
-      currentBoard.forEach((row, rowIndex) => {
-        if (row.every(square => square === 1)) p1Wins = true;
-        if (row.every(square => square === 2)) p2Wins = true;
-        row.forEach((value, column, row) => {
-          columns[column].push(value);
-          if (column === rowIndex) di1.push(value);
-          if (column === row.length - rowIndex - 1) di2.push(value);
-        });
-      });
-      if (di1.every(val => val === 1)) p1Wins = true;
-      if (di1.every(val => val === 2)) p2Wins = true;
-      if (di2.every(val => val === 1)) p1Wins = true;
-      if (di2.every(val => val === 2)) p2Wins = true;
-      columns.forEach(column => {
-        if (column.every(val => val === 1)) p1Wins = true;
-        if (column.every(val => val === 2)) p2Wins = true;
-      });
-      if (p1Wins) newState.winStatus = 1;
-      if (p2Wins) newState.winStatus = 2;
-      return newState;
-    });
-  };
+  // checkStalemate = () => {
+  //   this.setState(prevState => {
+  //     const newState = { ...prevState };
+  //     const currentBoard = newState.board;
+  //     let stalemate = true;
+  //     currentBoard.forEach((row, rowIndex) => {
+  //       if (row.some(value => value === 0)) stalemate = false;
+  //     });
+  //     if (stalemate) newState.winStatus = 3;
+  //     return newState;
+  //   });
+  // };
+
+  // checkWin = () => {
+  //   this.setState(prevState => {
+  //     if (prevState.winStatus !== 0) return prevState;
+  //     const newState = { ...prevState };
+  //     const currentBoard = newState.board;
+  //     let p1Wins,
+  //       p2Wins = false;
+  //     const columns = Array.from({ length: currentBoard.length }, val => []);
+  //     const di1 = [];
+  //     const di2 = [];
+  //     currentBoard.forEach((row, rowIndex) => {
+  //       if (row.every(square => square === 1)) p1Wins = true;
+  //       if (row.every(square => square === 2)) p2Wins = true;
+  //       row.forEach((value, column, row) => {
+  //         columns[column].push(value);
+  //         if (column === rowIndex) di1.push(value);
+  //         if (column === row.length - rowIndex - 1) di2.push(value);
+  //       });
+  //     });
+  //     if (di1.every(val => val === 1)) p1Wins = true;
+  //     if (di1.every(val => val === 2)) p2Wins = true;
+  //     if (di2.every(val => val === 1)) p1Wins = true;
+  //     if (di2.every(val => val === 2)) p2Wins = true;
+  //     columns.forEach(column => {
+  //       if (column.every(val => val === 1)) p1Wins = true;
+  //       if (column.every(val => val === 2)) p2Wins = true;
+  //     });
+  //     if (p1Wins) newState.winStatus = 1;
+  //     if (p2Wins) newState.winStatus = 2;
+  //     return newState;
+  //   });
+  // };
 
   playAgain = () =>
     this.setState(prevState => {
