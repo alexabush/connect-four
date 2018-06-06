@@ -18,6 +18,7 @@ const StyledText = styled.p`
 
 class Square extends Component {
   render() {
+    if (this.props.highlight) console.log('highlight');
     return (
       <StyledDiv onClick={() => this.props.squareClicked(this.props.position)}>
         <StyledText>{this.props.value}</StyledText>

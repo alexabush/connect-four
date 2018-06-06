@@ -16,7 +16,8 @@ class App extends Component {
     this.state = {
       ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
       isPlayer1Start: true,
-      isPlayer1Turn: true
+      isPlayer1Turn: true,
+      lastMove: null
     };
   }
 
@@ -26,6 +27,7 @@ class App extends Component {
     this.setState(prevState => {
       if (prevState.winStatus !== 0) return prevState;
       const newState = { ...prevState };
+      newState.lastMove = position;
       if (
         newState.board[targetRow][targetColumn] === 0 &&
         this.isBottomSquare(position)
@@ -75,7 +77,7 @@ class App extends Component {
       const currentBoard = newState.board;
       let p1Wins,
         p2Wins = false;
-      // const columns = Array.from({ length: currentBoard.length }, val => []);
+      const columns = Array.from({ length: currentBoard.length }, val => []);
       // const di1 = [];
       // const di2 = [];
       currentBoard.forEach((row, rowIndex) => {
@@ -83,7 +85,7 @@ class App extends Component {
         if (isConnectFour(row, 2)) p2Wins = true;
 
         // row.forEach((value, column, row) => {
-        //   columns[column].push(value);
+        // columns[column].push(value);
         //   if (column === rowIndex) di1.push(value);
         //   if (column === row.length - rowIndex - 1) di2.push(value);
         // });
@@ -93,8 +95,8 @@ class App extends Component {
       // if (di2.every(val => val === 1)) p1Wins = true;
       // if (di2.every(val => val === 2)) p2Wins = true;
       // columns.forEach(column => {
-      //   if (column.every(val => val === 1)) p1Wins = true;
-      //   if (column.every(val => val === 2)) p2Wins = true;
+      //   if (isConnectFour(column, 1)) p1Wins = true;
+      //   if (isConnectFour(column, 2)) p2Wins = true;
       // });
       if (p1Wins) newState.winStatus = 1;
       if (p2Wins) newState.winStatus = 2;
@@ -120,6 +122,7 @@ class App extends Component {
           currentTurn={this.state.isPlayer1Turn}
           winStatus={this.state.winStatus}
           playAgain={this.playAgain}
+          lastMove={this.state.lastMove}
         />
       </div>
     );
