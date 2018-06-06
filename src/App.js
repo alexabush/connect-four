@@ -127,17 +127,17 @@ class App extends Component {
 
 export default App;
 
-// export const isConnectFour = (arr, player) => {
-//   let counter = 0;
-//   let current = arr[0];
-//   //need to see if there is four in a row of the player's number
-//   for (let i = 0; arr.length; i++) {
-//     if (arr[i] === current && current === player) {
-//       counter++;
-//     } else {
-//       current = arr[i];
-//       counter = 1;
-//     }
-//   }
-//   return counter >= 4;
-// };
+export const isConnectFour = (arr, player) => {
+  let counter = 0;
+  let current = arr[0];
+  //need to see if there is four in a row of the player's number
+  for (let i = 0; arr.length; i++) {
+    if (arr[i] === current && current === player) {
+      counter++;
+    } else {
+      current = arr[i];
+      counter = 1;
+    }
+  }
+  return counter >= 4;
+};
