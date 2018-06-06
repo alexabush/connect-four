@@ -79,7 +79,8 @@ class App extends Component {
       // const di1 = [];
       // const di2 = [];
       currentBoard.forEach((row, rowIndex) => {
-        if (row.every(square => square === 1)) p1Wins = true;
+        if (isConnectFour(row, 1)) p1Wins = true;
+        if (isConnectFour(row, 2)) p2Wins = true;
 
         // row.forEach((value, column, row) => {
         //   columns[column].push(value);
@@ -95,8 +96,8 @@ class App extends Component {
       //   if (column.every(val => val === 1)) p1Wins = true;
       //   if (column.every(val => val === 2)) p2Wins = true;
       // });
-      // if (p1Wins) newState.winStatus = 1;
-      // if (p2Wins) newState.winStatus = 2;
+      if (p1Wins) newState.winStatus = 1;
+      if (p2Wins) newState.winStatus = 2;
       return newState;
     });
   };
@@ -127,17 +128,22 @@ class App extends Component {
 
 export default App;
 
+//this needs to be tested more rigorously
 export const isConnectFour = (arr, player) => {
+  let maxCount = 0;
   let counter = 0;
-  let current = arr[0];
+  let current;
   //need to see if there is four in a row of the player's number
-  for (let i = 0; arr.length; i++) {
-    if (arr[i] === current && current === player) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === player) {
+      current = player;
       counter++;
     } else {
       current = arr[i];
-      counter = 1;
+      if (maxCount < counter) maxCount = counter;
+      counter = 0;
     }
   }
-  return counter >= 4;
+  if (maxCount < counter) maxCount = counter;
+  return maxCount >= 4;
 };
