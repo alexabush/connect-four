@@ -46,22 +46,20 @@ class App extends Component {
   isBottomSquare = coordinate => {
     //don't modify the board, just return boolean
     const board = this.state.board;
-    const coordinateColumn = [];
-    for (let i = 0; i < board.length; i++) {
-      for (let j = 0; j < board[i].length; j++) {
-        if (coordinate[1] !== j) continue;
-        coordinateColumn.push(board[i][j]);
-        if (board[i][j] === coordinate) break;
-      }
+    const columnVals = [];
+    const coordinateRow = coordinate[0];
+    const coordinateColumn = coordinate[1];
+    //could I just target the specific column?
+    //start from bottom row up
+    for (let i = board.length - 1; i >= 0; i--) {
+      if (i === coordinateRow) break;
+      columnVals.push(board[i][coordinateColumn]);
     }
-    console.log(coordinate);
-    console.log(coordinateColumn);
     //I have all the columns in this row
     //need to get all the columns values 'under' the target coordinate
     //if any values under coordinate are 0, return false
     //else, return true (use some/every)
-    debugger;
-    return true;
+    return columnVals.every(val => val !== 0);
   };
 
   // checkStalemate = () => {
