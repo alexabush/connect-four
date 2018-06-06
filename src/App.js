@@ -40,40 +40,33 @@ class App extends Component {
       return newState;
     });
     // this.checkWin();
-    // this.checkStalemate();
+    this.checkStalemate();
   };
 
   isBottomSquare = coordinate => {
-    //don't modify the board, just return boolean
     const board = this.state.board;
     const columnVals = [];
     const coordinateRow = coordinate[0];
     const coordinateColumn = coordinate[1];
-    //could I just target the specific column?
-    //start from bottom row up
     for (let i = board.length - 1; i >= 0; i--) {
       if (i === coordinateRow) break;
       columnVals.push(board[i][coordinateColumn]);
     }
-    //I have all the columns in this row
-    //need to get all the columns values 'under' the target coordinate
-    //if any values under coordinate are 0, return false
-    //else, return true (use some/every)
     return columnVals.every(val => val !== 0);
   };
 
-  // checkStalemate = () => {
-  //   this.setState(prevState => {
-  //     const newState = { ...prevState };
-  //     const currentBoard = newState.board;
-  //     let stalemate = true;
-  //     currentBoard.forEach((row, rowIndex) => {
-  //       if (row.some(value => value === 0)) stalemate = false;
-  //     });
-  //     if (stalemate) newState.winStatus = 3;
-  //     return newState;
-  //   });
-  // };
+  checkStalemate = () => {
+    this.setState(prevState => {
+      const newState = { ...prevState };
+      const currentBoard = newState.board;
+      let stalemate = true;
+      currentBoard.forEach((row, rowIndex) => {
+        if (row.some(value => value === 0)) stalemate = false;
+      });
+      if (stalemate) newState.winStatus = 3;
+      return newState;
+    });
+  };
 
   // checkWin = () => {
   //   this.setState(prevState => {
