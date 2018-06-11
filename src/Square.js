@@ -14,7 +14,7 @@ const StyledText = styled.p`
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  color: ${({ color }) => color || '#228B22'};
+  color: ${({ color }) => color || 'black'};
 `;
 
 class Square extends Component {

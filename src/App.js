@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   squareClicked = position => {
-    console.log('position: ', position);
+    // console.log('position: ', position);
     const [targetRow, targetColumn] = position;
     this.setState(prevState => {
       if (prevState.winStatus !== 0) return prevState;
