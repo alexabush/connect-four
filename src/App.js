@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   squareClicked = position => {
-    // console.log('position: ', position);
+    console.log('position: ', position);
     const [targetRow, targetColumn] = position;
     this.setState(prevState => {
       if (prevState.winStatus !== 0) return prevState;
@@ -78,6 +78,7 @@ class App extends Component {
       let p1Wins,
         p2Wins = false;
       const columns = Array.from({ length: currentBoard.length }, val => []);
+      const diagonals = Array.from({ length: 24 }, val => []);
       // const di1 = [];
       // const di2 = [];
       currentBoard.forEach((row, rowIndex) => {
@@ -85,9 +86,15 @@ class App extends Component {
         if (isConnectFour(row, 2)) p2Wins = true;
 
         row.forEach((value, column, row) => {
-          debugger;
           if (column < columns.length) columns[column].push(value);
-          //   if (column === rowIndex) di1.push(value);
+          //the challenge is figuring out WHICH diagonal to push each value into
+          for (let i = 0; i <= 3; i++) {
+            if (column === rowIndex + i) {
+              diagonals[i].push(value);
+            } else if (column === rowIndex - i) {
+              diagonals[i + 10].push(value);
+            }
+          }
           //   if (column === row.length - rowIndex - 1) di2.push(value);
         });
       });
@@ -99,6 +106,13 @@ class App extends Component {
       // use last move data from state so I only need to calculate one row
 
       debugger;
+      diagonals.forEach(arr => {
+        if (arr.length >= 4) {
+          if (isConnectFour(arr, 1)) p1Wins = true;
+          if (isConnectFour(arr, 2)) p2Wins = true;
+        }
+      });
+
       columns.forEach(column => {
         if (isConnectFour(column, 1)) p1Wins = true;
         if (isConnectFour(column, 2)) p2Wins = true;
