@@ -14,14 +14,15 @@ const StyledText = styled.p`
   justify-content: center;
   align-items: center;
   font-size: 16px;
+  color: ${({ color }) => color || '#228B22'};
 `;
 
 class Square extends Component {
   render() {
-    if (this.props.highlight) console.log('highlight');
+    let color = this.props.highlight ? 'red' : 'black';
     return (
       <StyledDiv onClick={() => this.props.squareClicked(this.props.position)}>
-        <StyledText>{this.props.value}</StyledText>
+        <StyledText color={color}>{this.props.value}</StyledText>
       </StyledDiv>
     );
   }

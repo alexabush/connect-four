@@ -6,7 +6,8 @@ const DEFAULT_STATE = {
   winStatus: 0,
   board: Array.from({ length: 6 }, val => {
     return Array.from({ length: 7 }, val => 0);
-  })
+  }),
+  lastMove: null
 };
 
 class App extends Component {
@@ -16,8 +17,7 @@ class App extends Component {
     this.state = {
       ...JSON.parse(JSON.stringify(DEFAULT_STATE)),
       isPlayer1Start: true,
-      isPlayer1Turn: true,
-      lastMove: null
+      isPlayer1Turn: true
     };
   }
 
@@ -94,10 +94,14 @@ class App extends Component {
       // if (di1.every(val => val === 2)) p2Wins = true;
       // if (di2.every(val => val === 1)) p1Wins = true;
       // if (di2.every(val => val === 2)) p2Wins = true;
-      // columns.forEach(column => {
-      //   if (isConnectFour(column, 1)) p1Wins = true;
-      //   if (isConnectFour(column, 2)) p2Wins = true;
-      // });
+
+      // use last move data from state so I only need to calculate one row
+
+      columns.forEach(column => {
+        // debugger;
+        if (isConnectFour(column, 1)) p1Wins = true;
+        if (isConnectFour(column, 2)) p2Wins = true;
+      });
       if (p1Wins) newState.winStatus = 1;
       if (p2Wins) newState.winStatus = 2;
       return newState;

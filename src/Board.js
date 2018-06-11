@@ -12,12 +12,16 @@ class Board extends Component {
     const squares = this.props.board.map((row, rowIndex) => (
       <Row key={rowIndex}>
         {row.map((square, column) => {
-          debugger;
-          console.log('this.props.lastMove', this.props.lastMove);
-          console.log('row, col', [rowIndex, column]);
-          if (this.props.lastMove === [rowIndex, column]) {
-            debugger;
-            highlight = true;
+          if (this.props.lastMove) {
+            const currentCoordinate = [rowIndex, column];
+            let flag = true;
+            for (let i = 0; i < 2; i++) {
+              if (this.props.lastMove[i] !== currentCoordinate[i]) flag = false;
+            }
+            if (flag) {
+              // debugger;
+              highlight = true;
+            }
           }
           return (
             <Square
