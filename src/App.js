@@ -84,11 +84,12 @@ class App extends Component {
         if (isConnectFour(row, 1)) p1Wins = true;
         if (isConnectFour(row, 2)) p2Wins = true;
 
-        // row.forEach((value, column, row) => {
-        // columns[column].push(value);
-        //   if (column === rowIndex) di1.push(value);
-        //   if (column === row.length - rowIndex - 1) di2.push(value);
-        // });
+        row.forEach((value, column, row) => {
+          debugger;
+          if (column < columns.length) columns[column].push(value);
+          //   if (column === rowIndex) di1.push(value);
+          //   if (column === row.length - rowIndex - 1) di2.push(value);
+        });
       });
       // if (di1.every(val => val === 1)) p1Wins = true;
       // if (di1.every(val => val === 2)) p2Wins = true;
@@ -97,8 +98,8 @@ class App extends Component {
 
       // use last move data from state so I only need to calculate one row
 
+      debugger;
       columns.forEach(column => {
-        // debugger;
         if (isConnectFour(column, 1)) p1Wins = true;
         if (isConnectFour(column, 2)) p2Wins = true;
       });
