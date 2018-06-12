@@ -22,21 +22,19 @@ class App extends Component {
   }
 
   squareClicked = position => {
-    console.log('position: ', position);
+    // console.log('position: ', position);
     const [targetRow, targetColumn] = position;
     this.setState(prevState => {
       if (prevState.winStatus !== 0) return prevState;
       const newState = { ...prevState };
+      const currentBoard = newState.board;
       if (
-        newState.board[targetRow][targetColumn] === 0 &&
+        currentBoard[targetRow][targetColumn] === 0 &&
         this.isBottomSquare(position)
       ) {
         newState.lastMove = position;
-        if (newState.isPlayer1Turn) {
-          newState.board[targetRow][targetColumn] = 1;
-        } else {
-          newState.board[targetRow][targetColumn] = 2;
-        }
+        if (newState.isPlayer1Turn) currentBoard[targetRow][targetColumn] = 1;
+        else currentBoard[targetRow][targetColumn] = 2;
         newState.isPlayer1Turn = !newState.isPlayer1Turn;
       }
       return newState;
@@ -84,6 +82,7 @@ class App extends Component {
         if (isConnectFour(row, 1)) p1Wins = true;
         if (isConnectFour(row, 2)) p2Wins = true;
 
+        //top left diagonal
         row.forEach((value, column, row) => {
           if (column < columns.length) columns[column].push(value);
           for (let i = 0; i <= 3; i++) {
@@ -95,6 +94,7 @@ class App extends Component {
           }
         });
 
+        //bottom left diagonal
         [...row].reverse().forEach((value, column, row) => {
           for (let i = 0; i <= 3; i++) {
             if (column === rowIndex + i) {
