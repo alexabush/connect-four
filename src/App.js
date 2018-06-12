@@ -79,32 +79,34 @@ class App extends Component {
         p2Wins = false;
       const columns = Array.from({ length: currentBoard.length }, val => []);
       const diagonals = Array.from({ length: 24 }, val => []);
-      // const di1 = [];
-      // const di2 = [];
+
       currentBoard.forEach((row, rowIndex) => {
         if (isConnectFour(row, 1)) p1Wins = true;
         if (isConnectFour(row, 2)) p2Wins = true;
 
         row.forEach((value, column, row) => {
           if (column < columns.length) columns[column].push(value);
-          //the challenge is figuring out WHICH diagonal to push each value into
           for (let i = 0; i <= 3; i++) {
             if (column === rowIndex + i) {
               diagonals[i].push(value);
             } else if (column === rowIndex - i) {
-              diagonals[i + 10].push(value);
+              diagonals[i + 5].push(value);
             }
           }
-          //   if (column === row.length - rowIndex - 1) di2.push(value);
+        });
+
+        [...row].reverse().forEach((value, column, row) => {
+          for (let i = 0; i <= 3; i++) {
+            if (column === rowIndex + i) {
+              diagonals[i + 10].push(value);
+            } else if (column === rowIndex - i) {
+              diagonals[i + 15].push(value);
+            }
+          }
         });
       });
-      // if (di1.every(val => val === 1)) p1Wins = true;
-      // if (di1.every(val => val === 2)) p2Wins = true;
-      // if (di2.every(val => val === 1)) p1Wins = true;
-      // if (di2.every(val => val === 2)) p2Wins = true;
 
-      // use last move data from state so I only need to calculate one row
-
+      // can refactor to use last move data from state so I only need to calculate one row
       debugger;
       diagonals.forEach(arr => {
         if (arr.length >= 4) {
