@@ -27,11 +27,11 @@ class App extends Component {
     this.setState(prevState => {
       if (prevState.winStatus !== 0) return prevState;
       const newState = { ...prevState };
-      newState.lastMove = position;
       if (
         newState.board[targetRow][targetColumn] === 0 &&
         this.isBottomSquare(position)
       ) {
+        newState.lastMove = position;
         if (newState.isPlayer1Turn) {
           newState.board[targetRow][targetColumn] = 1;
         } else {
@@ -107,7 +107,6 @@ class App extends Component {
       });
 
       // can refactor to use last move data from state so I only need to calculate one row
-      debugger;
       diagonals.forEach(arr => {
         if (arr.length >= 4) {
           if (isConnectFour(arr, 1)) p1Wins = true;
@@ -135,7 +134,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App text-center">
         <h1>Connect Four</h1>
         <Board
           board={this.state.board}

@@ -2,28 +2,27 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const StyledDiv = styled.div`
-  border: 1px solid black;
+  border: ${({ border }) => border || '1px solid black'};
   width: 50px;
   height: 50px;
-  justify-content: center;
-  align-items: center;
-  display: inline-block;
-`;
-
-const StyledText = styled.p`
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: ${({ color }) => color || 'black'};
+  background-color: ${({ color }) => color || 'white'};
 `;
 
 class Square extends Component {
   render() {
-    let color = this.props.highlight ? 'red' : 'black';
+    let border;
+    if (this.props.highlight) border = '2px solid blue';
+    else border = '1px solid black';
+
+    let color;
+    if (this.props.value === 1) color = 'red';
+    if (this.props.value === 2) color = 'yellow';
     return (
-      <StyledDiv onClick={() => this.props.squareClicked(this.props.position)}>
-        <StyledText color={color}>{this.props.value}</StyledText>
-      </StyledDiv>
+      <StyledDiv
+        color={color}
+        border={border}
+        onClick={() => this.props.squareClicked(this.props.position)}
+      />
     );
   }
 }

@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import Square from './Square';
 import styled from 'styled-components';
 
+const Row = styled.div`
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 class Board extends Component {
   render() {
     let highlight;
     const squares = this.props.board.map((row, rowIndex) => (
-      <div key={rowIndex}>
+      <Row key={rowIndex}>
         {row.map((square, column) => {
           const position = [rowIndex, column];
           if (this.props.lastMove) {
@@ -29,7 +37,7 @@ class Board extends Component {
             />
           );
         })}
-      </div>
+      </Row>
     ));
 
     let playStatus;
@@ -52,7 +60,9 @@ class Board extends Component {
         <div>{squares}</div>
         <p>Ready: {this.props.currentTurn ? 'Player 1' : 'Player 2'}</p>
         <p>{playStatus}</p>
-        <button onClick={this.props.playAgain}>Play Again?</button>
+        <button className="btn btn-primary" onClick={this.props.playAgain}>
+          Play Again?
+        </button>
       </div>
     );
   }
